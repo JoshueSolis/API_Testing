@@ -1,6 +1,8 @@
 const fetch = require("node-fetch");
+const getBoardIdByName = require('./getBoardIdByName');
 
-async function getBoard(boardId, APIKey, APIToken) {
+async function getBoard(boardName, APIKey, APIToken) {
+  const boardId = await getBoardIdByName(boardName, APIKey, APIToken);
   const url = `https://api.trello.com/1/boards/${boardId}?key=${APIKey}&token=${APIToken}`;
 
   try {
@@ -15,8 +17,8 @@ async function getBoard(boardId, APIKey, APIToken) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const data = await response.json();
-    return data;
+    const board = await response.json();
+    return board;
   } catch (err) {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }

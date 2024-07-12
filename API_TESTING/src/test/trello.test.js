@@ -5,11 +5,14 @@ require('dotenv').config();
 
 const boardName = "Test Board";
 const newBoardName = "Board updated";
-const boardId = "667484edb75dcce3a7698a62";
+const listName = "Lista 1";
 const boardIdToChange = "6688912f6333488fc0c0a9e0";
-// const APIKey = ;
-// const APIToken = ;
-// Por seguridad el token fue removido de esta parte del codigo revisar el archivo .env
+const cardName = "Test Card";
+const cardId = "6691b569b730eee1cf7d70c7";
+const newCardName = "New Name";
+const listId = "66919690c29073b90cb44386";
+const APIKey = process.env.APIKey;
+const APIToken = process.env.APIToken;
 
 describe("Trello API Tests", () => {
   it("should create a new board", async () => {
@@ -18,20 +21,20 @@ describe("Trello API Tests", () => {
     expect(response).toBeDefined();
     expect(response.name).toBe(boardName);
     expect(response.id).toBeDefined();
-  }, 10000);
+  });
 
   it("should get a Trello Board", async () => {
     const response = await request(app).get("/get-board").query({
-      id: boardId,
+      boardName: boardName,
       APIKey: APIKey,
       APIToken: APIToken,
     });
 
     expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/json/);
     expect(response.body).toBeDefined();
-    expect(response.body.id).toBe(boardId);
-    expect(response.body.name).toBeDefined();
-  }, 10000);
+    expect(response.body.name).toBe(boardName);
+  });
 
   it("should update a Trello board", async () => {
     const response = await request(app).put("/update-board").send({
@@ -42,11 +45,12 @@ describe("Trello API Tests", () => {
     });
 
     expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/json/);
     expect(response.body).toBeDefined();
     expect(response.body.name).toBe(newBoardName);
-  }, 10000);
+  });
 
-  it("should delete a Trello Board", async () => {
+  it("should delete the 'Test Board' board", async () => {
     const response = await request(app).delete("/delete-board").send({
       boardName: boardName,
       APIKey: APIKey,
@@ -54,6 +58,59 @@ describe("Trello API Tests", () => {
     });
 
     expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/json/);
     expect(response.body).toBeDefined();
   });
+
+  it("should delete the 'Board 1' board", async () => {
+    const response = await request(app).delete("/delete-board").send({
+      boardName: 'Board 1',
+      APIKey: APIKey,
+      APIToken: APIToken,
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/json/);
+    expect(response.body).toBeDefined();
+  }); 
+
+  it("should create a new list in 'Board Updated' ", async () => {
+    const response = await request(app).post('/create-list').send({
+      listName: listName,
+      boardName: newBoardName,
+      APIKey: APIKey,
+      APIToken: APIToken
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/json/);
+    expect(response.body).toBeDefined();
+    expect(response.body.name).toBe(listName);
+  })
+
+  it("should create a new card in the 'Test cards' board y list", async () => {
+    const response = await request(app).post('/create-card').send({
+      cardName: cardName,
+      listId: listId,
+      APIKey: APIKey,
+      APIToken: APIToken,
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/json/);
+    expect(response.body).toBeDefined();
+  })
+
+  it("should update the name of a card", async () => {
+    const response = await request(app).put('/update-card').send({
+      cardId: cardId,
+      newCardName: newCardName,
+      APIKey: APIKey,
+      APIToken: APIToken,
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/json/);
+    expect(response.body).toBeDefined();
+  })
 });

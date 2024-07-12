@@ -7,8 +7,7 @@ async function createBoard(name, APIKey, APIToken) {
     const response = await fetch(url, {
       method: "POST",
     });
-
-    console.log(`Response: ${response.status} ${response.statusText}`);
+    
     const data = await response.json();
     return data;
   } catch (err) {
