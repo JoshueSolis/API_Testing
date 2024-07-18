@@ -5,12 +5,42 @@
   "scripts": {
     "test": "jest"
   },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "reporters": [
+      [
+        "jest-spec-reporter",
+        {
+          "suppressSumary": false,
+          "suppressFailed": false,
+          "suppressPassed": false,
+          "suppressPending": false
+        }
+      ],
+      [
+        "./node_modules/jest-html-reporter",
+        {
+          "outputPath": "./reports/html/report.html",
+          "pageTitle": "Test Report",
+          "includeFailureMsg": true,
+          "includeConsoleLog": true,
+          "theme": "defaultTheme"
+        }
+      ]
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "jest": "^29.7.0",
+    "jest-html-reporter": "^3.10.2",
+    "jest-spec-reporter": "^1.0.19",
     "supertest": "^7.0.0"
   },
   "dependencies": {
