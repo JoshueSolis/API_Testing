@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
 const getBoardIdByName = require('./getBoardIdByName');
 
 async function getBoard(boardName, APIKey, APIToken) {
@@ -7,12 +7,12 @@ async function getBoard(boardName, APIKey, APIToken) {
 
   try {
     const response = await fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        'Accept': "application/json",
+        Accept: 'application/json',
       },
     });
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
