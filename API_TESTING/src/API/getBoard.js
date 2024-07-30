@@ -19,7 +19,7 @@ async function getBoard(boardName, APIKey, APIToken) {
 
     const board = await response.json();
     return board;
-  } catch (err) {
+  } catch (response) {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 }

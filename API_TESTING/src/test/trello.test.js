@@ -74,7 +74,7 @@ describe('Trello API Tests', () => {
     expect(response.body).toBeDefined();
   });
 
-  it("should create a new list in 'Board Updated' ", async () => {
+  it("should create a new list in 'Board Updated'", async () => {
     const response = await request(app).post('/create-list').send({
       listName: listName,
       boardName: newBoardName,

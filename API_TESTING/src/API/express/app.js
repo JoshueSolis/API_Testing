@@ -55,12 +55,11 @@ app.post('/create-list', async (req, res) => {
 
 app.post('/create-card', async (req, res) => {
   const { cardName, listId, APIKey, APIToken } = req.body;
-
   try {
-    const card = await createCard(cardName, listId, APIKey, APIToken);
+    await createCard(cardName, listId, APIKey, APIToken);
     res.status(200).json();
   } catch (err) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
